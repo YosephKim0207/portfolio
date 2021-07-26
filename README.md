@@ -12,66 +12,7 @@ NLP와 추천시스템을 위해 뭐부터 공부해야하나 막연하던 찰�
 
 
 빠른 기능 확인을 위해 인터넷 신문기사를 txt파일로 만들어 konlpy를 이용한 wordcloud를 테스트해보았다.
-<details>
-<summary>접기/펼치기 버튼</summary>
-<div markdown="1">
+([해당코드](https://github.com/YosephKim0207/portfolio/blob/main/WordCloud_code))
 
-'''
-#! /usr/bin/python2.7
-# -*- coding: utf-8 -*-
-
-from collections import Counter
-import urllib
-import random
-import webbrowser
-
-from konlpy.tag import Hannanum
-from lxml import html
-import pytagcloud # requires Korean font support
-import sys
-
-if sys.version_info[0] >= 3:
-    urlopen = urllib.request.urlopen
-else:
-    urlopen = urllib.urlopen
-
-
-r = lambda: random.randint(0,255)
-color = lambda: (r(), r(), r())
-
-'''
-def get_bill_text(billnum):
-    #url = 'http://pokr.kr/bill/%s/text' % billnum
-    url = 'http://www.aitimes.com/news/articleView.html?idxno=%s' % billnum
-    response = urlopen(url).read().decode('utf-8')
-    page = html.fromstring(response)
-    #/html/body/div[1]/div/section/div[2]/div/section/article/div[2]/div/article[1]
-   # //*[@id="article-view-content-div"]
-    text = page.xpath("//*[@id=\"article-view-content-div\"]")[0]
-    return text
-'''
-
-def get_tags(text, ntags=50, multiplier=10):
-    h = Hannanum()
-    nouns = h.nouns(text)
-    count = Counter(nouns)
-    return [{ 'color': color(), 'tag': n, 'size': c*multiplier }for n, c in count.most_common(ntags)]
-
-def draw_cloud(tags, filename, fontname='Noto Sans CJK', size=(800, 600)):
-    pytagcloud.create_tag_image(tags, filename, fontname=fontname, size=size)
-    webbrowser.open(filename)
-
-
-#bill_num = '139784'
-text = open('/Users/yosephkim/OneDrive - 전북대학교/4학년 1학기/인공지능/대학원/개인연구/news.txt', encoding='utf-8')
-file = text.read()
-print(file)
-tags = get_tags(file)
-print(tags)
-draw_cloud(tags, 'wordcloud.png')
-'''
-
-</div>
-</details>
 
 ![](https://user-images.githubusercontent.com/46564046/126978534-5aac3ba9-efc3-4445-b951-fa8891384b63.png)
